@@ -17,6 +17,7 @@ from sqlalchemy.orm import Session
 from app.agent.llm import LLMClient, get_llm
 from app.agent.policy import evaluate_human_review
 from app.agent.types import CollectedEvidence, InvestigationContext
+from app.agent.validation import validate_report
 from app.core.config import get_settings
 from app.core.logging import get_logger
 from app.core.taxonomy import RootCauseCode, Severity
@@ -156,12 +157,21 @@ def investigate_incident(
     distinct_sources = len(
         {c.evidence_type for c in context.collected if c.evidence_type != "error"}
     )
+
+    # Evidence-grounding / hallucination validation (deterministic).
+    validation = validate_report(session, report)
+    report.unsupported_claims = validation.unsupported_claims
+
     requires, reason = evaluate_human_review(
         report,
         distinct_evidence_sources=distinct_sources,
         severity=context.severity,
         budget_exhausted=budget_exhausted,
     )
+    if not validation.passed:
+        requires = True
+        val_reason = "failed evidence validation"
+        reason = f"{reason}; {val_reason}" if reason else val_reason
     report.requires_human_review = requires
     report.human_review_reason = reason
 
@@ -171,6 +181,8 @@ def investigate_incident(
     agent_run.prompt_tokens = llm.usage.prompt_tokens
     agent_run.completion_tokens = llm.usage.completion_tokens
     agent_run.estimated_cost = llm.usage.cost
-    agent_run.output = report.model_dump(mode="json")
+    output = report.model_dump(mode="json")
+    output["validation"] = validation.to_dict()
+    agent_run.output = output
     session.flush()
     return report

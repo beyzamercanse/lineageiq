@@ -78,7 +78,15 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] Deterministic stale-FX demo (CLI + test): STALE_FX_RATE ranked #1 with cited evidence
 
 ## Phase 6 — Grounding/validation/human-review
-- [ ] Unsupported-claim detector, evidence validation, escalation policy
+- [x] Deterministic evidence-grounding validator (no LLM-validates-LLM)
+- [x] Evidence-id existence + incident-ownership checks
+- [x] Unsupported-claim detector (candidates without valid evidence)
+- [x] Confidence-vs-evidence-coverage consistency check
+- [x] Root-cause-code taxonomy check
+- [x] No-remediation-claimed-executed check
+- [x] Validation wired into the agent run; failures force human review + stored on AgentRun
+- [x] Human-review/escalation policy (Phase 5) covers all spec §12 triggers
+- [x] Tests: validator unit tests (valid, invalid id, unsupported, claimed-executed)
 
 ## Phase 7 — Full API + frontend pages
 - [ ] Incident queue, detail, lineage explorer, eval dashboard, demo controls
