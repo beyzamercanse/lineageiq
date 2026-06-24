@@ -1,0 +1,37 @@
+{
+  "manifest_id": "timezone_conversion_error-04",
+  "incident_type": "timezone_conversion_error",
+  "root_cause_code": "TIMEZONE_CONVERSION_ERROR",
+  "seed": 20240601,
+  "index": 3,
+  "title": "Timezone conversion shifts revenue across day boundary",
+  "params": {
+    "date": "2024-04-12",
+    "offset_hours": 6,
+    "region": "Asia"
+  },
+  "changed_tables": [
+    "orders"
+  ],
+  "affected_pipeline": "revenue_aggregation_pipeline",
+  "expected_symptoms": [
+    "Adjacent report days disagree with source (one over-, one under-counts)",
+    "Late-night orders shifted into the next day"
+  ],
+  "root_cause_description": "Local source timestamps were treated as UTC, shifting late-night orders into the next day so daily revenue is misallocated across the day boundary.",
+  "expected_affected_systems": [
+    "Orders",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:order_count_shift",
+    "sql:reconciliation_mismatch"
+  ],
+  "expected_remediation": "Normalize source timestamps to UTC and re-aggregate.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}

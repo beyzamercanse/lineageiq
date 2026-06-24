@@ -1,0 +1,42 @@
+{
+  "manifest_id": "schema_change-02",
+  "incident_type": "schema_change",
+  "root_cause_code": "SCHEMA_CONTRACT_CHANGE",
+  "seed": 20240601,
+  "index": 1,
+  "title": "Source renamed payments.payment_amount -> amount",
+  "params": {
+    "table": "payments",
+    "field": "payment_amount",
+    "new_field": "amount",
+    "date": "2024-04-11"
+  },
+  "changed_tables": [
+    "schema_events",
+    "pipeline_runs",
+    "system_logs",
+    "staging_records"
+  ],
+  "affected_pipeline": "orders_ingest",
+  "expected_symptoms": [
+    "Ingestion failed: unknown column for payments.payment_amount",
+    "Schema-contract change event recorded"
+  ],
+  "root_cause_description": "The source system renamed payments.payment_amount to amount; the staging mapping is incompatible, so the load failed the schema contract.",
+  "expected_affected_systems": [
+    "Payments",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "schema:contract_change",
+    "pipeline:failed_run",
+    "log:unknown_column"
+  ],
+  "expected_remediation": "Update the schema contract / staging field mapping and reprocess the staged batch.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}

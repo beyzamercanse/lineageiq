@@ -160,3 +160,40 @@ class EvaluationRun(Base):
     configuration: Mapped[dict[str, Any]] = mapped_column()
     metrics: Mapped[Optional[dict[str, Any]]] = mapped_column(nullable=True)
     report_path: Mapped[Optional[str]] = mapped_column(String(300), nullable=True)
+
+
+class StagingRecord(Base):
+    """Raw ingested records before validation.
+
+    Lets us simulate null-contamination, partial-load and schema-change incidents in the staging
+    zone without violating the curated core schema (see docs/SECURITY.md / CLAUDE.md rule 9).
+    """
+
+    __tablename__ = "staging_records"
+
+    staging_id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    pipeline_run_id: Mapped[Optional[str]] = mapped_column(String(40), nullable=True, index=True)
+    source_system: Mapped[str] = mapped_column(String(40), index=True)
+    entity_type: Mapped[str] = mapped_column(String(40), index=True)
+    natural_key: Mapped[Optional[str]] = mapped_column(String(60), nullable=True)
+    payload: Mapped[dict[str, Any]] = mapped_column()
+    load_status: Mapped[str] = mapped_column(String(20), default="loaded")
+    ingested_at: Mapped[datetime] = mapped_column(index=True)
+
+
+class SchemaEvent(Base):
+    """A simulated source schema-contract change (renamed/dropped/retyped field).
+
+    Represented as metadata + logs rather than real DDL so the environment stays recoverable.
+    """
+
+    __tablename__ = "schema_events"
+
+    event_id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    table_name: Mapped[str] = mapped_column(String(60), index=True)
+    change_type: Mapped[str] = mapped_column(String(40))
+    field_name: Mapped[str] = mapped_column(String(60))
+    details: Mapped[str] = mapped_column(Text)
+    pipeline_run_id: Mapped[Optional[str]] = mapped_column(String(40), nullable=True)
+    payload: Mapped[Optional[dict[str, Any]]] = mapped_column(nullable=True)
+    occurred_at: Mapped[datetime] = mapped_column(index=True)

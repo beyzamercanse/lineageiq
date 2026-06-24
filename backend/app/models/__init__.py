@@ -24,6 +24,8 @@ from app.models.operational import (
     IncidentGroundTruth,
     PipelineDefinition,
     PipelineRun,
+    SchemaEvent,
+    StagingRecord,
     SystemLog,
 )
 
@@ -46,6 +48,8 @@ __all__ = [
     "PipelineDefinition",
     "PipelineRun",
     "Refund",
+    "SchemaEvent",
     "Shipment",
+    "StagingRecord",
     "SystemLog",
 ]

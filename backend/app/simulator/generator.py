@@ -16,18 +16,25 @@ from sqlalchemy.orm import Session
 
 from app.core.logging import get_logger
 from app.models import (
+    AgentRun,
+    Alert,
     CrmCustomer,
     Customer,
     CustomerLimit,
     DailyRevenueReport,
+    Evidence,
     FxRate,
     HistoricalIncident,
+    Incident,
+    IncidentGroundTruth,
     Order,
     Payment,
     PipelineDefinition,
     PipelineRun,
     Refund,
+    SchemaEvent,
     Shipment,
+    StagingRecord,
     SystemLog,
 )
 from app.simulator.config import (
@@ -47,8 +54,11 @@ log = get_logger(__name__)
 
 CENTS = Decimal("0.01")
 
-# Tables wiped (in FK-safe order) before regeneration.
+# Tables wiped (in FK-safe order, children first) before regeneration. Includes incident
+# artifacts and staging/schema tables so a regenerate doubles as a full clean restore.
 _WIPE_ORDER = [
+    Evidence, AgentRun, IncidentGroundTruth, Alert, Incident,
+    SchemaEvent, StagingRecord,
     SystemLog, PipelineRun, PipelineDefinition, DailyRevenueReport, Shipment, Refund,
     Payment, Order, CustomerLimit, Customer, CrmCustomer, FxRate, HistoricalIncident,
 ]

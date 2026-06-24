@@ -1,0 +1,36 @@
+{
+  "manifest_id": "duplicate_transaction-03",
+  "incident_type": "duplicate_transaction",
+  "root_cause_code": "DUPLICATE_TRANSACTION",
+  "seed": 20240601,
+  "index": 2,
+  "title": "Duplicate payment double-counted in revenue",
+  "params": {
+    "payment_id": "PAY-001281"
+  },
+  "changed_tables": [
+    "payments",
+    "system_logs"
+  ],
+  "affected_pipeline": "payment_reconciliation_pipeline",
+  "expected_symptoms": [
+    "Duplicate idempotency_key in payments",
+    "Reported revenue higher than reconciled source"
+  ],
+  "root_cause_description": "A payment retry without idempotency enforcement created a duplicate payment row, double-counting the amount in revenue.",
+  "expected_affected_systems": [
+    "Payments",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:duplicate_idempotency_key",
+    "log:payment_retry"
+  ],
+  "expected_remediation": "Deduplicate payments by idempotency_key and rebuild affected revenue aggregates.",
+  "should_escalate": false,
+  "changed_record_ids": [],
+  "injected_at": null
+}

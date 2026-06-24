@@ -1,0 +1,35 @@
+{
+  "manifest_id": "incorrect_aggregation-01",
+  "incident_type": "incorrect_aggregation",
+  "root_cause_code": "INCORRECT_AGGREGATION",
+  "seed": 20240601,
+  "index": 0,
+  "title": "Refund sign error in revenue aggregation",
+  "params": {
+    "date": "2024-06-05",
+    "region": "Europe"
+  },
+  "changed_tables": [
+    "daily_revenue_report"
+  ],
+  "affected_pipeline": "revenue_aggregation_pipeline",
+  "expected_symptoms": [
+    "net_revenue != gross_revenue - refund_total in the report",
+    "Report does not reconcile to source"
+  ],
+  "root_cause_description": "The aggregation added refunds instead of subtracting them, so net revenue is overstated by twice the refund total.",
+  "expected_affected_systems": [
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:net_revenue_inconsistent",
+    "sql:reconciliation_mismatch"
+  ],
+  "expected_remediation": "Fix the aggregation refund sign and recompute the report.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}

@@ -1,0 +1,39 @@
+{
+  "manifest_id": "stale_fx_rate-03",
+  "incident_type": "stale_fx_rate",
+  "root_cause_code": "STALE_FX_RATE",
+  "seed": 20240601,
+  "index": 2,
+  "title": "Stale EUR/USD rate overstates revenue",
+  "params": {
+    "date": "2024-04-11",
+    "currency": "EUR"
+  },
+  "changed_tables": [
+    "fx_rates",
+    "pipeline_runs",
+    "system_logs"
+  ],
+  "affected_pipeline": "fx_rate_pipeline",
+  "expected_symptoms": [
+    "EUR/USD rate identical to previous day (no drift)",
+    "daily_revenue_report does not reconcile to source"
+  ],
+  "root_cause_description": "The FX pipeline failed to fetch a fresh EUR/USD rate and reused the previous day's rate, so converted USD revenue deviates from the correct value.",
+  "expected_affected_systems": [
+    "ForeignExchange",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:fx_rate_compare",
+    "pipeline:fx_rate_pipeline",
+    "log:stale_rate"
+  ],
+  "expected_remediation": "Refresh FX data for the affected date and regenerate affected revenue reports.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}

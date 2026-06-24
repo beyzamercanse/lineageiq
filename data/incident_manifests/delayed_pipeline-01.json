@@ -1,0 +1,36 @@
+{
+  "manifest_id": "delayed_pipeline-01",
+  "incident_type": "delayed_pipeline",
+  "root_cause_code": "DELAYED_PIPELINE",
+  "seed": 20240601,
+  "index": 0,
+  "title": "Revenue report missing due to delayed upstream pipeline",
+  "params": {
+    "date": "2024-04-05",
+    "pipeline": "revenue_aggregation_pipeline"
+  },
+  "changed_tables": [
+    "pipeline_runs",
+    "daily_revenue_report"
+  ],
+  "affected_pipeline": "revenue_aggregation_pipeline",
+  "expected_symptoms": [
+    "Pipeline run completed far beyond its window",
+    "daily_revenue_report missing for the affected date"
+  ],
+  "root_cause_description": "An upstream ingest was delayed past the aggregation window, so the daily revenue report was not produced for the affected date.",
+  "expected_affected_systems": [
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "pipeline:delayed_run",
+    "sql:missing_report"
+  ],
+  "expected_remediation": "Re-run the aggregation once the delayed ingest completes.",
+  "should_escalate": false,
+  "changed_record_ids": [],
+  "injected_at": null
+}

@@ -1,0 +1,39 @@
+{
+  "manifest_id": "upstream_api_failure-06",
+  "incident_type": "upstream_api_failure",
+  "root_cause_code": "UPSTREAM_API_FAILURE",
+  "seed": 20240601,
+  "index": 5,
+  "title": "Payment provider API error burst causes missing payments",
+  "params": {
+    "date": "2024-04-10",
+    "error_count": 25
+  },
+  "changed_tables": [
+    "system_logs",
+    "pipeline_runs",
+    "payments",
+    "refunds"
+  ],
+  "affected_pipeline": "payment_reconciliation_pipeline",
+  "expected_symptoms": [
+    "Burst of 5xx errors from the payment provider",
+    "Failed payment reconciliation run; some payments missing"
+  ],
+  "root_cause_description": "The payment provider API returned a burst of 5xx errors, so a window of payments failed to ingest.",
+  "expected_affected_systems": [
+    "Payments",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "log:api_error_burst",
+    "pipeline:failed_run"
+  ],
+  "expected_remediation": "Replay the failed payment windows once the provider recovers.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}

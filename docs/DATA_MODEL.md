@@ -45,6 +45,11 @@ All money is stored as `NUMERIC` (Python `Decimal`). All timestamps are UTC.
   affected_systems, remediation, severity, evidence_summary, searchable_text, occurred_at
 - **evaluation_runs** — evaluation_run_id, started_at, completed_at, dataset_version, model_name,
   configuration (JSON), metrics (JSON), report_path
+- **staging_records** — staging_id, pipeline_run_id, source_system, entity_type, natural_key,
+  payload (JSON), load_status, ingested_at. Raw ingestion zone; lets us simulate
+  null-contamination / partial-load / schema-change incidents without violating the core schema.
+- **schema_events** — event_id, table_name, change_type, field_name, details, pipeline_run_id,
+  payload (JSON), occurred_at. Simulated source schema-contract changes (no real DDL).
 
 ## Referential integrity (clean baseline invariants)
 - Every order.customer_id ∈ customers; every customer.crm_customer_id ∈ crm_customers.

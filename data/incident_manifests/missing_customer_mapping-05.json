@@ -1,0 +1,43 @@
+{
+  "manifest_id": "missing_customer_mapping-05",
+  "incident_type": "missing_customer_mapping",
+  "root_cause_code": "MISSING_CUSTOMER_MAPPING",
+  "seed": 20240601,
+  "index": 4,
+  "title": "Customers missing CRM mapping",
+  "params": {
+    "customer_ids": [
+      "CUST-000058",
+      "CUST-000382",
+      "CUST-000358",
+      "CUST-000209",
+      "CUST-000246"
+    ]
+  },
+  "changed_tables": [
+    "customers",
+    "system_logs"
+  ],
+  "affected_pipeline": "customer_mapping_pipeline",
+  "expected_symptoms": [
+    "customers.crm_customer_id is null for several customers",
+    "Orders cannot be attributed via CRM"
+  ],
+  "root_cause_description": "The customer mapping pipeline dropped rows, leaving customers unmapped to CRM.",
+  "expected_affected_systems": [
+    "CRM",
+    "Customers",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:null_crm_mapping",
+    "pipeline:customer_mapping_pipeline"
+  ],
+  "expected_remediation": "Backfill customer-to-CRM mapping from CRM and reprocess.",
+  "should_escalate": false,
+  "changed_record_ids": [],
+  "injected_at": null
+}

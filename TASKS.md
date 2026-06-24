@@ -32,12 +32,17 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] Unit tests for generator + validation
 
 ## Phase 2 — Incident injection + deterministic detection
-- [ ] Incident manifest model + manifest generator (80 incidents)
-- [ ] 10 injector classes
-- [ ] Restore clean baseline
-- [ ] Deterministic detection controls + `Alert`
-- [ ] Alert → incident creation + ground truth
-- [ ] `make generate-incidents`, `make inject-incident`, `make restore-clean-data`, `make detect`
+- [x] Shared taxonomy (10 incident types, 11 root-cause codes, severity)
+- [x] Incident manifest model + JSON persistence
+- [x] 10 injector classes (schema-change simulated via staging/metadata/logs, no DDL)
+- [x] Manifest generator (80 incidents: 8 per type)
+- [x] Restore clean baseline (deterministic regeneration)
+- [x] 11 deterministic detection controls producing standardized `Alert`
+- [x] Severity scoring (`detection/severity.py`)
+- [x] Alert → incident creation + initial evidence + ground truth
+- [x] `make generate-incidents`, `make inject-incident`, `make restore-clean-data`, `make detect`
+- [x] Tests: per-injector (deterministic, isolated), per-category detector firing, pipeline integration
+- [x] Stale-FX demo verified end to end (ruff + mypy + 56 tests green)
 
 ## Phase 3 — Lineage graph + impact analysis
 - [ ] LineageStore interface + NetworkX impl

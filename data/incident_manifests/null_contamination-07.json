@@ -1,0 +1,37 @@
+{
+  "manifest_id": "null_contamination-07",
+  "incident_type": "null_contamination",
+  "root_cause_code": "NULL_CONTAMINATION",
+  "seed": 20240601,
+  "index": 6,
+  "title": "Null gross_amount values in staged orders",
+  "params": {
+    "date": "2024-04-22",
+    "count": 8
+  },
+  "changed_tables": [
+    "staging_records",
+    "system_logs"
+  ],
+  "affected_pipeline": "orders_ingest",
+  "expected_symptoms": [
+    "Required field gross_amount is null in staged order records",
+    "Validation errors logged during ingest"
+  ],
+  "root_cause_description": "The source delivered orders with a null required field (gross_amount); the rows landed in staging instead of being rejected.",
+  "expected_affected_systems": [
+    "Orders",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:null_required_field",
+    "log:validation_error"
+  ],
+  "expected_remediation": "Quarantine null staged rows, fix the source feed, and reload.",
+  "should_escalate": false,
+  "changed_record_ids": [],
+  "injected_at": null
+}

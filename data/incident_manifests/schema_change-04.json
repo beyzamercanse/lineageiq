@@ -1,0 +1,42 @@
+{
+  "manifest_id": "schema_change-04",
+  "incident_type": "schema_change",
+  "root_cause_code": "SCHEMA_CONTRACT_CHANGE",
+  "seed": 20240601,
+  "index": 3,
+  "title": "Source renamed orders.order_currency -> currency_code",
+  "params": {
+    "table": "orders",
+    "field": "order_currency",
+    "new_field": "currency_code",
+    "date": "2024-03-07"
+  },
+  "changed_tables": [
+    "schema_events",
+    "pipeline_runs",
+    "system_logs",
+    "staging_records"
+  ],
+  "affected_pipeline": "orders_ingest",
+  "expected_symptoms": [
+    "Ingestion failed: unknown column for orders.order_currency",
+    "Schema-contract change event recorded"
+  ],
+  "root_cause_description": "The source system renamed orders.order_currency to currency_code; the staging mapping is incompatible, so the load failed the schema contract.",
+  "expected_affected_systems": [
+    "Orders",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "schema:contract_change",
+    "pipeline:failed_run",
+    "log:unknown_column"
+  ],
+  "expected_remediation": "Update the schema contract / staging field mapping and reprocess the staged batch.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}

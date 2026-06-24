@@ -1,0 +1,40 @@
+{
+  "manifest_id": "partial_load-07",
+  "incident_type": "partial_load",
+  "root_cause_code": "PARTIAL_LOAD",
+  "seed": 20240601,
+  "index": 6,
+  "title": "Partial file load drops most orders for a day",
+  "params": {
+    "date": "2024-03-26",
+    "drop_fraction": 0.7
+  },
+  "changed_tables": [
+    "orders",
+    "payments",
+    "refunds",
+    "shipments",
+    "pipeline_runs"
+  ],
+  "affected_pipeline": "orders_ingest",
+  "expected_symptoms": [
+    "Order row count for the day far below the daily norm",
+    "rows_written far below rows_read for the ingest run"
+  ],
+  "root_cause_description": "The order ingest file was truncated mid-stream, so most of the day's orders were never loaded.",
+  "expected_affected_systems": [
+    "Orders",
+    "Reporting"
+  ],
+  "expected_affected_reports": [
+    "daily_revenue_report"
+  ],
+  "expected_evidence": [
+    "sql:row_count_drop",
+    "pipeline:partial_run"
+  ],
+  "expected_remediation": "Reload the complete file and verify row counts.",
+  "should_escalate": true,
+  "changed_record_ids": [],
+  "injected_at": null
+}
