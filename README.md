@@ -83,12 +83,40 @@ make dev            # backend on :8000
 make dev-frontend   # frontend on :3000
 ```
 
+> **Python note:** the spec targets Python 3.12. The data layer is also written to run on Python
+> 3.9 + SQLite for quick local verification (see `docs/decisions/0005-db-postgres-sqlite.md`), which
+> is why a few 3.11+ constructs (`StrEnum`, `zip(strict=)`) are intentionally avoided.
+
+## Key commands
+
+```bash
+make seed                 # generate the clean synthetic dataset
+make validate-data        # assert clean-baseline invariants
+make generate-incidents   # write the 80 incident manifests
+make inject-incident INCIDENT_ID=stale_fx_rate-01
+make detect               # run deterministic controls -> incidents
+make train                # train + persist ML models
+make investigate INCIDENT_ID=INC-stale_fx_rate-01
+make evaluate             # full evaluation -> data/evaluation/latest_report.md
+make demo                 # seed + inject + investigate the stale-FX scenario
+make test lint typecheck  # quality gates
+```
+
 ## Demo
 
 ```bash
 make demo
 ```
-Runs the deterministic **stale-FX-rate** scenario end to end (see `docs/DEMO_SCRIPT.md`).
+Runs the deterministic **stale-FX-rate** scenario end to end (see `docs/DEMO_SCRIPT.md`): seeds the
+dataset, injects a stale EUR/USD rate, detects the reconciliation anomaly, and runs the AI
+investigation, which ranks `STALE_FX_RATE` first with SQL + pipeline + log + lineage + historical
+evidence and recommends (never executes) remediation.
+
+## Screenshots
+
+_Run `make dev` + `make dev-frontend` and capture the five pages (Overview, Incident queue,
+Incident detail, Lineage explorer, Evaluation dashboard). Placeholders live under `docs/` until
+captured._
 
 ## Documentation
 

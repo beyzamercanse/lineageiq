@@ -115,4 +115,10 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [ ] Evaluation runner + metrics + automated baseline + tracing + cost + eval UI
 
 ## Phase 9 — Portfolio polish
-- [ ] Final README with generated results, screenshots, limitations, clean setup
+- [x] README: generated-results table, key-commands reference, demo walkthrough, Python note
+- [x] Screenshots placeholder + capture instructions
+- [x] Security docs (docs/SECURITY.md), ADRs (docs/decisions/), demo script (docs/DEMO_SCRIPT.md)
+- [x] Sample evaluation output committed (data/evaluation/latest_report.md)
+- [x] `make train` target; CI runs unit+security+e2e
+- [x] No fabricated metrics; no committed secrets; full gate green (ruff, mypy, 117 tests)
+- [x] `make demo` runs end to end from a clean checkout

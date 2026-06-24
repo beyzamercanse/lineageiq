@@ -70,7 +70,11 @@ detect: ## Run deterministic detection controls
 investigate: ## Investigate one incident: make investigate INCIDENT_ID=<id>
 	$(PY) -m app.agent.cli investigate --incident-id $(INCIDENT_ID)
 
-evaluate: ## Run the evaluation suite
+## ---- ML / evaluation ----
+train: ## Train + persist ML models (anomaly, classifier, severity)
+	$(PY) -m app.ml.cli train
+
+evaluate: ## Run the full evaluation suite (writes data/evaluation/latest_report.md)
 	$(PY) -m app.evaluation.cli run
 
 ## ---- Demo ----

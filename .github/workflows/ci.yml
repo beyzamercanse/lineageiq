@@ -22,10 +22,10 @@ jobs:
         run: ruff check backend
       - name: mypy
         run: mypy
-      - name: Unit tests (SQLite)
+      - name: Unit + security + e2e tests (SQLite)
         env:
           DATABASE_URL: sqlite:///./data/generated/ci.db
-        run: pytest -m "unit or security"
+        run: pytest -m "unit or security or e2e"
 
   integration:
     runs-on: ubuntu-latest
