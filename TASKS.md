@@ -45,9 +45,12 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] Stale-FX demo verified end to end (ruff + mypy + 56 tests green)
 
 ## Phase 3 — Lineage graph + impact analysis
-- [ ] LineageStore interface + NetworkX impl
-- [ ] AtlasCommerce lineage config + traversal/impact
-- [ ] Lineage API + basic frontend explorer
+- [x] LineageStore interface + NetworkX impl (upstream/downstream/path/impact/serialize)
+- [x] AtlasCommerce lineage config (APIs→tables→pipelines→report→dashboards→metrics)
+- [x] Root-cause → focus-node mapping for the agent
+- [x] Lineage API: /nodes, /impact, /upstream, /path
+- [x] Frontend lineage explorer (focus node, upstream/downstream, impacted assets, paths)
+- [x] Tests: traversal/path/impact unit + API integration (11 tests)
 
 ## Phase 4 — ML components
 - [ ] Feature pipelines, Isolation Forest, classifier+calibration, TF-IDF clustering, persistence
