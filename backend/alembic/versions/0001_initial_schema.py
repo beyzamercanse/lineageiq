@@ -13,7 +13,6 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 from alembic import op
-
 from app.models import Base
 
 revision: str = "0001_initial"

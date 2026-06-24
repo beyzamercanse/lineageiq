@@ -12,7 +12,7 @@ import os
 
 from app.core.logging import configure_logging, get_logger
 from app.db.session import get_engine
-from app.models import Base  # noqa: F401  (ensures metadata is populated)
+from app.models import Base
 
 log = get_logger(__name__)
 

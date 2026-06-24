@@ -12,7 +12,7 @@ from typing import Optional
 from sqlalchemy import Date, ForeignKey, Index, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db.base import Base
+from app.db.base import Base, Rate
 
 
 class CrmCustomer(Base):
@@ -112,7 +112,7 @@ class FxRate(Base):
     source_currency: Mapped[str] = mapped_column(String(3), primary_key=True)
     target_currency: Mapped[str] = mapped_column(String(3), primary_key=True)
     provider: Mapped[str] = mapped_column(String(40), primary_key=True)
-    exchange_rate: Mapped[Decimal] = mapped_column()
+    exchange_rate: Mapped[Decimal] = mapped_column(Rate)
     retrieved_at: Mapped[datetime] = mapped_column()
 
 

@@ -38,21 +38,24 @@ def get_system_status(session: Session) -> SystemStatusResponse:
     settings = get_settings()
     reachable = True
     counts: dict[str, int] = {}
+    engine = session.get_bind().engine
+    backend = engine.url.get_backend_name()
     try:
-        existing = set(inspect(session.bind).get_table_names())
+        existing = set(inspect(engine).get_table_names())
         for label, model in _COUNT_MODELS.items():
             if model.__tablename__ in existing:
                 counts[label] = session.scalar(select(func.count()).select_from(model)) or 0
             else:
                 counts[label] = 0
-    except Exception:  # noqa: BLE001 - status endpoint must not raise
+    except Exception:
+        # Status endpoint must never raise; report degraded instead.
         reachable = False
 
     return SystemStatusResponse(
         status="ok" if reachable else "degraded",
         version=__version__,
         environment=settings.lineageiq_env,
-        database_backend=session.bind.url.get_backend_name() if session.bind else "unknown",
+        database_backend=backend,
         database_reachable=reachable,
         llm_provider=settings.llm_provider,
         seed=settings.random_seed,

@@ -45,7 +45,7 @@ def setup_tracing(app: Any | None = None) -> None:
             FastAPIInstrumentor.instrument_app(app)
         _initialized = True
         log.info("OpenTelemetry tracing enabled")
-    except Exception:  # noqa: BLE001 - tracing must never break the app
+    except Exception:
         log.warning("OTEL setup failed; continuing without tracing", exc_info=True)
 
 
@@ -64,5 +64,5 @@ def span(name: str, **attributes: Any) -> Iterator[None]:
             for key, value in attributes.items():
                 sp.set_attribute(key, value)
             yield
-    except Exception:  # noqa: BLE001
+    except Exception:
         yield

@@ -49,7 +49,11 @@ src = ["backend"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "C4", "SIM", "RUF"]
-ignore = ["B008"]  # FastAPI Depends() in defaults
+# B008: FastAPI Depends() in defaults.
+# UP017/UP007/UP045: keep timezone.utc and Optional[...] so the SQLAlchemy data layer also runs
+# on Python 3.9 for local verification (ADR-0005); the 3.12 target is unaffected and these remain
+# valid, type-checker-friendly forms.
+ignore = ["B008", "UP017", "UP007", "UP045"]
 
 [tool.ruff.lint.per-file-ignores]
 "backend/tests/**" = ["E501"]
