@@ -1,0 +1,10 @@
+{
+  "version": "ml-20260624133003",
+  "n_samples": 80,
+  "n_classes": 10,
+  "root_cause_cv_accuracy": 1.0,
+  "root_cause_cv_macro_f1": 1.0,
+  "severity_cv_accuracy": 0.8,
+  "severity_cv_macro_f1": 0.85,
+  "cv_folds": 3
+}

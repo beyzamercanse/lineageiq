@@ -74,12 +74,12 @@ evaluate: ## Run the evaluation suite
 	$(PY) -m app.evaluation.cli run
 
 ## ---- Demo ----
-demo: ## Prepare the full stale-FX demonstration environment
+demo: ## Prepare + run the full stale-FX demonstration (seed, inject, detect, investigate)
 	$(PY) -m app.simulator.cli seed
 	$(PY) -m app.incidents.cli generate
 	$(PY) -m app.incidents.cli inject --incident-type stale_fx_rate --first
-	$(PY) -m app.detection.cli run
-	@echo "Demo environment ready. Start the API with 'make dev'."
+	$(PY) -m app.agent.cli investigate --incident-id INC-stale_fx_rate-01
+	@echo "Demo complete. Start the API with 'make dev'."
 
 # Note: make targets cd into backend via PYTHONPATH set in pyproject pytest config;
 # app.* modules are importable when run from ./backend. The recipes below export it.

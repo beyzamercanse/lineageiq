@@ -119,6 +119,7 @@ class Injector(ABC):
             expected_affected_reports=expected_affected_reports,
             expected_evidence=expected_evidence,
             expected_remediation=expected_remediation,
+            severity=severity,
             should_escalate=severity in (Severity.HIGH, Severity.CRITICAL),
         )
 

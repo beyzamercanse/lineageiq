@@ -53,7 +53,16 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] Tests: traversal/path/impact unit + API integration (11 tests)
 
 ## Phase 4 — ML components
-- [ ] Feature pipelines, Isolation Forest, classifier+calibration, TF-IDF clustering, persistence
+- [x] Incident + report feature pipelines (detector-derived features)
+- [x] Isolation Forest for numeric report-anomaly detection
+- [x] Calibrated GradientBoosting root-cause classifier (CalibratedClassifierCV)
+- [x] GradientBoosting severity model
+- [x] Deterministic + fuzzy entity/duplicate matching
+- [x] TF-IDF + KMeans historical-incident clustering & similarity search
+- [x] Reproducible training (seed, feature defs) + persisted bundle + metrics + version
+- [x] Inference service (predict root cause/severity, anomaly score) + `make`-able CLI
+- [x] Tests: matching unit + training/inference/historical integration
+- [x] Real metrics generated (80 samples, 10 classes; root-cause CV acc 1.0, severity CV acc 0.80)
 
 ## Phase 5 — Agent tools + orchestration
 - [ ] 6 read-only tools, bounded agent, structured output, evidence persistence, FakeLLM

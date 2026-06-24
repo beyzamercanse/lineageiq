@@ -13,7 +13,7 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from app.core.taxonomy import IncidentType, RootCauseCode
+from app.core.taxonomy import IncidentType, RootCauseCode, Severity
 
 MANIFEST_DIR = Path("data/incident_manifests")
 
@@ -37,6 +37,7 @@ class IncidentManifest(BaseModel):
     expected_affected_reports: list[str] = Field(default_factory=list)
     expected_evidence: list[str] = Field(default_factory=list)
     expected_remediation: str = ""
+    severity: Severity = Severity.MEDIUM
     should_escalate: bool = False
     # Recorded after a real injection run (ids of changed records).
     changed_record_ids: list[str] = Field(default_factory=list)
