@@ -7,9 +7,14 @@ one source of truth.
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Repo root: backend/app/core/config.py -> parents[3]. Used to anchor data/artifact paths so the
+# app works regardless of the current working directory (e.g. uvicorn launched from backend/).
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
 class Settings(BaseSettings):
@@ -23,9 +28,10 @@ class Settings(BaseSettings):
     lineageiq_env: str = Field(default="local", alias="LINEAGEIQ_ENV")
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
 
-    # Database
+    # Database (default SQLite path is anchored to the repo root, not the cwd)
     database_url: str = Field(
-        default="sqlite:///./data/generated/lineageiq.db", alias="DATABASE_URL"
+        default=f"sqlite:///{PROJECT_ROOT / 'data' / 'generated' / 'lineageiq.db'}",
+        alias="DATABASE_URL",
     )
     database_url_ro: str | None = Field(default=None, alias="DATABASE_URL_RO")
 

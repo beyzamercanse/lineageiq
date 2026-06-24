@@ -13,9 +13,10 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
+from app.core.config import PROJECT_ROOT
 from app.core.taxonomy import IncidentType, RootCauseCode, Severity
 
-MANIFEST_DIR = Path("data/incident_manifests")
+MANIFEST_DIR = PROJECT_ROOT / "data" / "incident_manifests"
 
 
 class IncidentManifest(BaseModel):

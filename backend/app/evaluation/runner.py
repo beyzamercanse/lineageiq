@@ -12,7 +12,6 @@ import json
 import time
 from collections.abc import Callable
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 from sqlalchemy import select
@@ -20,7 +19,7 @@ from sqlalchemy.orm import Session
 
 from app.agent.llm import FakeLLM, LLMClient
 from app.agent.orchestrator import investigate_incident
-from app.core.config import get_settings
+from app.core.config import PROJECT_ROOT, get_settings
 from app.core.logging import get_logger
 from app.detection.detectors import run_all_detectors
 from app.evaluation.baseline import run_baseline
@@ -33,8 +32,8 @@ from app.simulator.config import GeneratorConfig
 
 log = get_logger(__name__)
 
-REPORT_DIR = Path("data/evaluation/runs")
-SUMMARY_PATH = Path("data/evaluation/latest_report.md")
+REPORT_DIR = PROJECT_ROOT / "data" / "evaluation" / "runs"
+SUMMARY_PATH = PROJECT_ROOT / "data" / "evaluation" / "latest_report.md"
 
 
 def run_evaluation(

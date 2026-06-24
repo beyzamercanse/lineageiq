@@ -14,7 +14,6 @@ import json
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 import joblib
@@ -25,6 +24,7 @@ from sklearn.metrics import f1_score
 from sklearn.model_selection import cross_val_predict
 from sqlalchemy.orm import Session
 
+from app.core.config import PROJECT_ROOT
 from app.core.logging import get_logger
 from app.detection.detectors import run_all_detectors
 from app.incidents.restore import restore_clean_baseline
@@ -38,7 +38,7 @@ from app.simulator.config import GeneratorConfig
 
 log = get_logger(__name__)
 
-ARTIFACT_DIR = Path("backend/app/ml/artifacts")
+ARTIFACT_DIR = PROJECT_ROOT / "backend" / "app" / "ml" / "artifacts"
 BUNDLE_PATH = ARTIFACT_DIR / "model_bundle.joblib"
 METRICS_PATH = ARTIFACT_DIR / "metrics.json"
 
