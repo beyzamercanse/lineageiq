@@ -130,3 +130,13 @@ export interface IncidentDetail {
   agent_runs: AgentRunOut[];
   ground_truth: GroundTruthOut | null;
 }
+
+export interface EvaluationRunSummary {
+  evaluation_run_id: string;
+  started_at: string;
+  completed_at: string | null;
+  dataset_version: string;
+  model_name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  metrics: Record<string, any> | null;
+}

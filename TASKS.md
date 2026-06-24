@@ -95,8 +95,21 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] Frontend: incident queue (filter/sort, status/confidence/review columns)
 - [x] Frontend: incident detail (ranked causes, evidence cards, impact, remediation, ground truth)
 - [x] Frontend: lineage explorer (Phase 3)
+- [x] Frontend: evaluation dashboard (Phase 8)
 - [x] Tests: incident + demo API integration
-- [ ] Evaluation dashboard (Phase 8)
+
+## Phase 8 — Evaluation + observability
+- [x] Evaluation runner: per-incident isolation (restore→inject→detect→investigate→validate→compare)
+- [x] Metrics: top-1/top-3, macro/weighted F1, unsupported rate (claim + report),
+      escalation precision/recall/F1, latency mean/p95, tool calls, tokens, cost, Brier + ECE
+- [x] Category/severity breakdowns; failures recorded (no silent skips)
+- [x] Automated LLM-free baseline + comparison
+- [x] Reports written to DB (evaluation_runs) + JSON + CSV + Markdown
+- [x] OpenTelemetry spans on agent runs + tool calls (no-op unless OTEL_ENABLED)
+- [x] Evaluation API (run/list/get) + frontend dashboard
+- [x] Manual-benchmark template CSV
+- [x] Tests: evaluation runner + API integration
+- [x] Real generated report (80 incidents) at data/evaluation/latest_report.md
 
 ## Phase 8 — Evaluation + observability
 - [ ] Evaluation runner + metrics + automated baseline + tracing + cost + eval UI
