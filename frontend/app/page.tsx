@@ -1,15 +1,47 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { fetcher } from "@/lib/api";
-import type { SystemStatusResponse } from "@/types/api";
+import { apiPost, fetcher } from "@/lib/api";
+import type { IncidentSummary, SystemStatusResponse } from "@/types/api";
+
+interface ManifestSummary {
+  manifest_id: string;
+  incident_type: string;
+  title: string;
+  severity: string;
+}
 
 export default function OverviewPage() {
+  const router = useRouter();
   const { data, error, isLoading } = useSWR<SystemStatusResponse>(
     "/api/v1/system/status",
     fetcher,
     { refreshInterval: 10000 },
   );
+  const { data: manifests } = useSWR<ManifestSummary[]>("/api/v1/demo/manifests", fetcher);
+  const [selected, setSelected] = useState("stale_fx_rate-01");
+  const [busy, setBusy] = useState<string | null>(null);
+
+  async function seed() {
+    setBusy("Seeding clean dataset…");
+    try {
+      await apiPost("/api/v1/demo/seed");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function inject() {
+    setBusy("Injecting incident + detecting…");
+    try {
+      const incident = await apiPost<IncidentSummary>(`/api/v1/demo/inject/${selected}`);
+      router.push(`/incidents/${incident.incident_id}`);
+    } finally {
+      setBusy(null);
+    }
+  }
 
   return (
     <div>
@@ -17,6 +49,26 @@ export default function OverviewPage() {
       <p className="muted">
         AtlasCommerce — synthetic multi-system enterprise. All data is fictional.
       </p>
+
+      <div className="card" style={{ marginBottom: "1rem" }}>
+        <h3>Demo controls</h3>
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
+          <button onClick={seed} disabled={busy != null}>
+            1. Seed clean data
+          </button>
+          <select value={selected} onChange={(e) => setSelected(e.target.value)}>
+            {(manifests ?? []).map((m) => (
+              <option key={m.manifest_id} value={m.manifest_id}>
+                {m.manifest_id} — {m.title}
+              </option>
+            ))}
+          </select>
+          <button onClick={inject} disabled={busy != null}>
+            2. Inject + detect
+          </button>
+        </div>
+        {busy && <p className="muted">{busy}</p>}
+      </div>
 
       {isLoading && <div className="card">Loading system status…</div>}
       {error && (
@@ -34,9 +86,7 @@ export default function OverviewPage() {
             <div className="card">
               <div className="muted">System status</div>
               <div className="metric">
-                <span
-                  className={`badge ${data.database_reachable ? "ok" : "bad"}`}
-                >
+                <span className={`badge ${data.database_reachable ? "ok" : "bad"}`}>
                   {data.status}
                 </span>
               </div>
@@ -74,8 +124,7 @@ export default function OverviewPage() {
               </tbody>
             </table>
             <p className="muted" style={{ marginTop: "0.5rem" }}>
-              Seed {data.seed}. Run <code>make seed</code> to generate the clean
-              dataset.
+              Seed {data.seed}.
             </p>
           </div>
         </>

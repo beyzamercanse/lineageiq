@@ -55,7 +55,7 @@ def test_valid_report_passes():
 
 @pytest.mark.unit
 def test_invalid_evidence_id_flagged():
-    s, ids = _session_with_incident()
+    s, _ids = _session_with_incident()
     report = _report(evidence_ids=["EV-DOES-NOT-EXIST"], root_cause_candidates=[RootCauseCandidate(
         rank=1, root_cause_code="STALE_FX_RATE", title="t", explanation="e",
         confidence=0.8, supporting_evidence_ids=["EV-DOES-NOT-EXIST"])])

@@ -17,7 +17,9 @@ from app.core.taxonomy import RootCauseCode
 from app.models import Evidence
 from app.schemas.investigation import InvestigationReport
 
-_EXECUTED_WORDS = ("executed", "applied", "performed", "completed the", "has been fixed", "resolved")
+_EXECUTED_WORDS = (
+    "executed", "applied", "performed", "completed the", "has been fixed", "resolved",
+)
 _VALID_CODES = {c.value for c in RootCauseCode}
 _CONFIDENCE_THRESHOLD = 0.65
 
