@@ -65,8 +65,17 @@ Legend: `[x]` done · `[~]` in progress · `[ ]` todo
 - [x] Real metrics generated (80 samples, 10 classes; root-cause CV acc 1.0, severity CV acc 0.80)
 
 ## Phase 5 — Agent tools + orchestration
-- [ ] 6 read-only tools, bounded agent, structured output, evidence persistence, FakeLLM
-- [ ] Deterministic stale-FX demo
+- [x] 6 read-only tools: run_readonly_sql, search_logs, query_lineage,
+      search_historical_incidents, inspect_pipeline_runs, inspect_schema
+- [x] SQL safety guard (sqlglot): SELECT-only, allowlist, row cap, no multi-statement/DDL/unsafe fn
+- [x] Every tool call persists a traceable Evidence record
+- [x] Provider-independent LLMClient + deterministic FakeLLM + OpenAICompatible client
+- [x] Per-root-cause investigation playbooks + remediation knowledge base
+- [x] Bounded orchestrator (tool-call/time budgets) + AgentRun + token/cost accounting
+- [x] Structured InvestigationReport (Pydantic), confidence in [0,1]
+- [x] Human-review/escalation policy
+- [x] Tests: SQL-guard + tool-safety security, agent unit, e2e top-1 per category, stale-FX demo
+- [x] Deterministic stale-FX demo (CLI + test): STALE_FX_RATE ranked #1 with cited evidence
 
 ## Phase 6 — Grounding/validation/human-review
 - [ ] Unsupported-claim detector, evidence validation, escalation policy

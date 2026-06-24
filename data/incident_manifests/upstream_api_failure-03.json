@@ -33,6 +33,7 @@
     "pipeline:failed_run"
   ],
   "expected_remediation": "Replay the failed payment windows once the provider recovers.",
+  "severity": "high",
   "should_escalate": true,
   "changed_record_ids": [],
   "injected_at": null

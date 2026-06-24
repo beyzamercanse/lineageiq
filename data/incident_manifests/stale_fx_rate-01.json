@@ -33,6 +33,7 @@
     "log:stale_rate"
   ],
   "expected_remediation": "Refresh FX data for the affected date and regenerate affected revenue reports.",
+  "severity": "high",
   "should_escalate": true,
   "changed_record_ids": [],
   "injected_at": null

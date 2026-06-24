@@ -30,6 +30,7 @@
     "sql:missing_report"
   ],
   "expected_remediation": "Re-run the aggregation once the delayed ingest completes.",
+  "severity": "low",
   "should_escalate": false,
   "changed_record_ids": [],
   "injected_at": null

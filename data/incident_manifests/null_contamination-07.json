@@ -31,6 +31,7 @@
     "log:validation_error"
   ],
   "expected_remediation": "Quarantine null staged rows, fix the source feed, and reload.",
+  "severity": "low",
   "should_escalate": false,
   "changed_record_ids": [],
   "injected_at": null

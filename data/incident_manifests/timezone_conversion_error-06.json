@@ -31,6 +31,7 @@
     "sql:reconciliation_mismatch"
   ],
   "expected_remediation": "Normalize source timestamps to UTC and re-aggregate.",
+  "severity": "high",
   "should_escalate": true,
   "changed_record_ids": [],
   "injected_at": null

@@ -34,6 +34,7 @@
     "pipeline:partial_run"
   ],
   "expected_remediation": "Reload the complete file and verify row counts.",
+  "severity": "critical",
   "should_escalate": true,
   "changed_record_ids": [],
   "injected_at": null

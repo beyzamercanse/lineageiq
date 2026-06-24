@@ -30,6 +30,7 @@
     "log:payment_retry"
   ],
   "expected_remediation": "Deduplicate payments by idempotency_key and rebuild affected revenue aggregates.",
+  "severity": "low",
   "should_escalate": false,
   "changed_record_ids": [],
   "injected_at": null

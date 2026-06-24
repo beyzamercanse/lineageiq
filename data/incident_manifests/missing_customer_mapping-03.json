@@ -37,6 +37,7 @@
     "pipeline:customer_mapping_pipeline"
   ],
   "expected_remediation": "Backfill customer-to-CRM mapping from CRM and reprocess.",
+  "severity": "low",
   "should_escalate": false,
   "changed_record_ids": [],
   "injected_at": null

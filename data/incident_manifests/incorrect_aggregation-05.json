@@ -29,6 +29,7 @@
     "sql:reconciliation_mismatch"
   ],
   "expected_remediation": "Fix the aggregation refund sign and recompute the report.",
+  "severity": "high",
   "should_escalate": true,
   "changed_record_ids": [],
   "injected_at": null

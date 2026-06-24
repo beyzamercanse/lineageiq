@@ -36,6 +36,7 @@
     "log:unknown_column"
   ],
   "expected_remediation": "Update the schema contract / staging field mapping and reprocess the staged batch.",
+  "severity": "high",
   "should_escalate": true,
   "changed_record_ids": [],
   "injected_at": null
