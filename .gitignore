@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Node / Next
+node_modules/
+frontend/.next/
+frontend/out/
+npm-debug.log*
+
+# Data artifacts (generated)
+data/generated/*.db
+data/generated/*.sqlite
+data/generated/snapshots/
+data/evaluation/runs/
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Models
+backend/app/ml/artifacts/*.joblib
+backend/app/ml/artifacts/*.pkl

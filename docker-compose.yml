@@ -1,0 +1,69 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: lineageiq
+      POSTGRES_PASSWORD: lineageiq
+      POSTGRES_DB: lineageiq
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-readonly-role.sql:/docker-entrypoint-initdb.d/10-readonly-role.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lineageiq -d lineageiq"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://lineageiq:lineageiq@postgres:5432/lineageiq
+      DATABASE_URL_RO: postgresql+psycopg://lineageiq_ro:lineageiq_ro@postgres:5432/lineageiq
+      LLM_PROVIDER: fake
+      OTEL_ENABLED: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import httpx; httpx.get('http://localhost:8000/api/v1/health').raise_for_status()\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_started
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    profiles: ["observability"]
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./scripts/otel-collector-config.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4317:4317"
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    profiles: ["observability"]
+    ports:
+      - "16686:16686"
+
+volumes:
+  pgdata:

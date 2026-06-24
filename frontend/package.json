@@ -1,0 +1,30 @@
+{
+  "name": "lineageiq-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "reactflow": "11.11.4",
+    "recharts": "2.12.7",
+    "swr": "2.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.5",
+    "typescript": "5.5.3",
+    "vitest": "2.0.3"
+  }
+}
